@@ -10,9 +10,13 @@ logging:
 spring:
   thymeleaf:
     mode: HTML
+# roomba_client's specific settings
 roomba:
+  # your Roomba's ip address 
   ip: 192.168.0.19
+  # your Roomba's port number
   port: 9001
+  # serial sequences in the select box, 'Selectable Sequence'
   sequences:
     start_and_safe: 128 131
     start_and_full: 128 132
