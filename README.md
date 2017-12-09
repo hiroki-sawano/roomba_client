@@ -42,7 +42,7 @@ $ ./gradlew bootRun
 
 ## How it works
 Step1 : Fill in a command's name and either choose a serial sequence in the select box or input arbitrary numbers.  
-(For information on (The Roomba Open Interface(OI)), please refer to http://www.irobot.lv/uploaded_files/File/iRobot_Roomba_500_Open_Interface_Spec.pdf.)  
+(For information on The Roomba Open Interface(OI), please refer to http://www.irobot.lv/uploaded_files/File/iRobot_Roomba_500_Open_Interface_Spec.pdf.)  
 
 Step2 : You can add the command to the data table on the bottom of the page by clicking on 'ADD COMMAND' or send it to your Roomba immediately(w/o saving it) by clicking on 'EXECUTE COMMAND'.  
 ### Multiple commands execution
