@@ -14,7 +14,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
-group = 'com.example'
+group = 'jp.gr.java_conf.hs.roomba.client'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
