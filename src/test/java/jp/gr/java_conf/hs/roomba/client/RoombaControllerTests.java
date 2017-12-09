@@ -1,6 +1,3 @@
-/**
- * 
- */
 package jp.gr.java_conf.hs.roomba.client;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -9,9 +6,12 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -23,10 +23,10 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -34,10 +34,6 @@ import org.springframework.ui.ModelMap;
 
 import jp.gr.java_conf.hs.roomba.client.repositories.MyDataRepository;
 
-/**
- * @author macbookair
- *
- */
 @RunWith(SpringRunner.class)
 @WebMvcTest(RoombaController.class)
 public class RoombaControllerTests {
@@ -55,9 +51,6 @@ public class RoombaControllerTests {
 	private Command c2 = new Command("c2", "seq2");
 
 	private Map<String, String> selectItems = new HashMap<String, String>() {
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
 
 		{
@@ -80,8 +73,8 @@ public class RoombaControllerTests {
 		commandList.add(c2);
 		given(this.settings.getSequences()).willReturn(selectItems);
 		given(this.repo.findAll()).willReturn(commandList);
-
-		MvcResult mvcResult = this.mvc.perform(get("/").accept(MediaType.TEXT_PLAIN)).andExpect(status().isOk())
+		// doReturn(commandList).when(repo).findAll();
+		MvcResult mvcResult = this.mvc.perform(get("/")).andDo(print()).andExpect(status().isOk())
 				.andExpect(view().name("index")).andExpect(model().attributeExists("userInput"))
 				.andExpect(model().attribute("dataTable", commandList)).andReturn();
 		ModelMap modelMap = mvcResult.getModelAndView().getModelMap();
@@ -94,12 +87,10 @@ public class RoombaControllerTests {
 
 	@Test
 	public void addCommand() throws Exception {
-
-		//MvcResult mvcResult = this.mvc.perform(post("/invoke").accept(MediaType.TEXT_PLAIN))
-		//		.andExpect(status().isOk()).andReturn();
-			//	.andExpect(view().name("index")).andExpect(model().attributeExists("userInput"))
-			//	.andExpect(model().attribute("dataTable", commandList)).andReturn();
-
+		this.mvc.perform(post("/invoke?add=").param("name", "command_name").param("selectedSequence", "")
+				.param("arbitrarySequence", "128 131")).andDo(print()).andExpect(redirectedUrl("/"))
+				.andExpect(model().hasNoErrors());
+		verify(repo).saveAndFlush(Mockito.any(Command.class));
 	}
 
 	@Test
