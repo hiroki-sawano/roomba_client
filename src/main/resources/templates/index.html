@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+<title>Top</title>
+<script>
+	function showProgress() {
+		document.getElementById("progress").style.display = "";
+	}
+</script>
+</head>
+<body>
+	<section layout:fragment="content">
+		<h1 th:text="#{index.title}"></h1>
+		<div id="progress" class="mdl-spinner mdl-js-spinner is-active" style="float: right; display: none"></div>
+		<p th:utext="#{index.msg}"></p>
+		<form method="post" action="/invoke" th:object="${userInput}">
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+				<label class="mdl-textfield__label" for="name">Command Name...</label>
+				<input class="mdl-textfield__input" type="text" name="name" th:value="*{name}" th:errorclass="err" />
+				<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" th:errorclass="err"></div>
+			</div>
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+				<label class="mdl-textfield__label" for="selectedSequence">Selectable Sequence...</label>
+				<select class="mdl-textfield__input" id="selectedSequence" name="selectedSequence" th:errorclass="err">
+					<option value=""></option>
+					<option th:each="item : *{selectItems}" th:value="${item.value}" th:text="${item.key}" th:selected="${item.value} == *{selectedSequence}"></option>
+				</select>
+				<div th:if="${#fields.hasErrors('selectedSequence')}" th:errors="*{selectedSequence}" th:errorclass="err"></div>
+			</div>
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+				<label class="mdl-textfield__label" for="arbitrarySequence">Arbitrary Sequence...</label>
+				<input class="mdl-textfield__input" type="text" name="arbitrarySequence" th:value="*{arbitrarySequence}" th:errorclass="err" />
+				<div th:if="${#fields.hasErrors('arbitrarySequence')}" th:errors="*{arbitrarySequence}" th:errorclass="err"></div>
+			</div>
+			<div style="float: right">
+				<button class="mdl-button mdl-js-button mdl-button--raised" type="submit" name="add" onclick="showProgress();">Add command</button>
+				<button class="mdl-button mdl-js-button mdl-button--raised" type="submit" name="im_exec" onclick="showProgress();">Execute command</button>
+			</div>
+		</form>
+		<hr />
+		<p style="float: left">The table below contains commands you are going to send to a Roomba.</p>
+		<form method="post" action="/exec" style="float: right">
+			<button class="mdl-button mdl-js-button mdl-button--raised" type="submit" onclick="showProgress();">Execute all the commands shown below</button>
+		</form>
+		<table class="mdl-data-table mdl-shadow--2dp full-width">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th class="mdl-data-table__cell--non-numeric">NAME</th>
+					<th class="mdl-data-table__cell--non-numeric full-width">SERIAL_SEQUENCE</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="command, stat : ${dataTable}">
+					<td th:text="${command.id}"></td>
+					<td class="mdl-data-table__cell--non-numeric" th:text="${command.name}"></td>
+					<td class="mdl-data-table__cell--non-numeric" th:text="${command.serialSequence}"></td>
+					<td><form method="post" th:action="@{'/exec/' + ${command.id}}">
+							<button class="mdl-button mdl-js-button mdl-button--raised" type="submit" onclick="showProgress();">Execute</button>
+						</form></td>
+					<td><a th:href="@{'/edit/' + ${command.id}}">
+							<button class="mdl-button mdl-js-button mdl-button--raised" type="submit">Edit</button>
+						</a></td>
+					<td><form method="post" th:action="@{'/delete/' + ${command.id}}">
+							<button class="mdl-button mdl-js-button mdl-button--raised" type="submit" onclick="showProgress();">Delete</button>
+						</form></td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
+</body>
+</html>

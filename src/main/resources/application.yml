@@ -1,0 +1,26 @@
+logging:
+  file: event.log
+  level:
+    org:
+      hibernate: ERROR
+      springframework:
+        web: INFO
+    root: INFO
+  path: ''
+spring:
+  thymeleaf:
+    mode: HTML
+roomba:
+  ip: 192.168.0.19
+  port: 9001
+  sequences:
+    start_and_safe: 128 131
+    start_and_full: 128 132
+    clean: 135
+    max: 136
+    spot: 134
+    seek_dock: 143
+    song: 140 0 7 76 16 76 32 79 16 79 16 77 16 74 16 72 32
+    play: 141 0
+    end: 128
+    daily_schedule: 167 62 0 0 12 0 12 0 12 0 12 0 12 0 0 0

@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}"><head>
+<title>Edit</title>
+</head>
+<body>
+	<section layout:fragment="content">
+		<h1>Edit page</h1>
+		<table>
+			<form method="post" action="/edit" th:object="${command}">
+				<input type="hidden" name="id" th:value="*{id}" />
+				<tr>
+					<td><label for="name">NAME</label></td>
+					<td><input type="text" name="name" th:value="*{name}" /></td>
+				</tr>
+				<tr>
+					<td><label for="serialSequence">SERIAL_SEQUENCE</label></td>
+					<td><input type="text" name="serialSequence" th:value="*{serialSequence}" /></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><input type="submit" /></td>
+				</tr>
+			</form>
+		</table>
+	</section>
+</body>
+</html>
