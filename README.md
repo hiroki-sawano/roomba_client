@@ -1,5 +1,6 @@
 # roomba_client
 [![Build Status](https://travis-ci.org/hiroki-sawano/roomba_client.svg?branch=master)](https://travis-ci.org/hiroki-sawano/roomba_client)
+[![Coverage Status](https://coveralls.io/repos/github/hiroki-sawano/roomba_client/badge.svg)](https://coveralls.io/github/hiroki-sawano/roomba_client)
 
 ## Prerequisite
 Make sure your Roomba has RooWiFi module(http://www.roowifi.com/) so that it can be operated by using socket TCP/IP communication.
