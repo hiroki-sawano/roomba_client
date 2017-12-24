@@ -13,6 +13,8 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
 
 group = 'jp.gr.java_conf.hs.roomba.client'
 version = '0.0.1-SNAPSHOT'
@@ -33,3 +35,10 @@ dependencies {
 
 ext['thymeleaf.version'] = '3.0.7.RELEASE'
 ext['thymeleaf-layout-dialect.version'] = '2.2.2'
+
+jacocoTestReport {
+	reports {
+		xml.enabled = true //coveralls plugin depends on xml format report
+		html.enabled = true
+	}
+}	
